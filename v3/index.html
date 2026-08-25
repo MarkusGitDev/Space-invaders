@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#02040b">
-<title>Space Invaders by Markus</title>
+<title>Starfall Invaders</title>
 <style>
 :root{
   --cyan:#41e9ff;--blue:#4f7cff;--pink:#ff3f81;--red:#ff4d5a;
@@ -80,7 +80,7 @@ h1{margin:0;font-size:40px;letter-spacing:.03em;background:linear-gradient(90deg
 <div id="menu">
   <div class="panel">
     <div class="logo">DELUXE ARCADE</div>
-    <h1 id="menuTitle">SPACE INVADERS</h1><div style="margin-top:5px;font-size:15px;font-weight:900;letter-spacing:.10em;color:#8feaff">by Markus</div>
+    <h1 id="menuTitle">SPACE INVADERS</h1><div style="margin-top:5px;font-size:15px;font-weight:900;letter-spacing:.10em;color:#8feaff"></div>
     <div class="subtitle" id="menuSubtitle">Bosskämpfe · Power-Ups · mehrere Gegnertypen</div>
 
     <div class="featureGrid">
@@ -252,11 +252,11 @@ document.addEventListener("visibilitychange",()=>{if(document.hidden)input.fire=
 
 const immortalToggle=document.getElementById("immortalToggle");
 if(immortalToggle){
-  immortalToggle.checked=localStorage.getItem("spaceInvadersByMarkusImmortal")==="1";
+  immortalToggle.checked=localStorage.getItem("starfallInvadersImmortal")==="1";
   immortal=immortalToggle.checked;
   immortalToggle.addEventListener("change",()=>{
     immortal=immortalToggle.checked;
-    localStorage.setItem("spaceInvadersByMarkusImmortal",immortal?"1":"0");
+    localStorage.setItem("starfallInvadersImmortal",immortal?"1":"0");
   });
 }
 

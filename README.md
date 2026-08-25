@@ -1,9 +1,10 @@
 # Space Invaders by Markus
 
-Mehrere dauerhaft spielbare GitHub-Pages-Versionen:
+GitHub-Pages-Versionen:
 
 - `/v1/` – Original
 - `/v2/` – Neon Invaders X
-- `/v3/` – Space Invaders by Markus mit optionalem Unsterblich-Modus
+- `/v3/` – Starfall Invaders mit Unsterblich-Modus
+- `/v4/` – automatisches Dauerfeuer, Slider-Steuerung, kleinere Grafik, mehr Gegner, 4 Waffenarten mit eigenen Farben und Sounds, 4 Boss-Typen, 30+ Level
 
-Die Startseite `/` dient als Versionsauswahl.
+Die Startseite `/` ist die Versionsauswahl.
