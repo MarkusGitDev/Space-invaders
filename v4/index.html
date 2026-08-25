@@ -20,7 +20,7 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02040b;col
 #controls{position:fixed;left:0;right:0;bottom:0;z-index:8;padding:10px 18px calc(env(safe-area-inset-bottom) + 12px);background:linear-gradient(transparent,#01040deb 22%,#01040df7)}
 #steerWrap{max-width:520px;margin:0 auto;padding:8px 10px 5px;border-radius:18px;background:#071522d9;border:1px solid #28cfff66;box-shadow:inset 0 0 18px #28cfff18}
 #steerLabel{display:flex;justify-content:space-between;margin:0 4px 6px;font-size:8px;font-weight:900;letter-spacing:.12em;color:#9eefff}
-#steer{width:100%;height:34px;margin:0;appearance:none;-webkit-appearance:none;background:transparent;touch-action:none}
+#steer{width:100%;height:34px;margin:0;-webkit-appearance:none;appearance:none;background:transparent;touch-action:none}
 #steer::-webkit-slider-runnable-track{height:9px;border-radius:99px;background:linear-gradient(90deg,#163b5a,#43eaff,#163b5a);box-shadow:0 0 12px #43eaff44}
 #steer::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-12px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,#64eaff 32%,#12649a 75%);border:2px solid #aaf7ff;box-shadow:0 0 18px #43eaff}
 #steer::-moz-range-track{height:9px;border-radius:99px;background:linear-gradient(90deg,#163b5a,#43eaff,#163b5a)}
@@ -96,9 +96,29 @@ const bossShell=document.getElementById("bossShell"),bossFill=document.getElemen
 let W=390,H=700,D=1,last=performance.now(),running=false,score=0,level=1,lives=3,immortal=false;
 let stars=[],enemies=[],bullets=[],ebullets=[],parts=[],drops=[],boss=null,dir=1,enemySpeed=28,enemyTimer=0;
 const steer=document.getElementById("steer");
+const player={x:195,y:550,speed:330,shot:0,inv:0,shield:0,weapon:"laser",weaponTime:0};
+
+const HI="sim_markus_v4_hi",BL="sim_markus_v4_level",IM="sim_markus_immortal";
+let high=+(localStorage.getItem(HI)||0),best=+(localStorage.getItem(BL)||1);
+highEl.textContent=high.toLocaleString("de-DE");bestEl.textContent=best;
+
+let AC=null,soundOn=true;
+function audio(){if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume()}
+function tone(f,d,type="square",vol=.02,f2=null){if(!soundOn)return;audio();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,AC.currentTime);if(f2)o.frequency.exponentialRampToValueAtTime(f2,AC.currentTime+d);g.gain.setValueAtTime(vol,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}
+const weaponData={
+ laser:{name:"LASER",color:"#43eaff",glow:"#2adfff",rate:.18,speed:620,damage:1,tone:[650,.045,"square",.018,840]},
+ rapid:{name:"SCHNELL",color:"#ffd84a",glow:"#ffbb24",rate:.07,speed:660,damage:1,tone:[980,.028,"square",.014,1220]},
+ plasma:{name:"PLASMA",color:"#c060ff",glow:"#a93cff",rate:.32,speed:500,damage:4,tone:[300,.10,"sine",.03,520]},
+ spread:{name:"STREU",color:"#63ff90",glow:"#36e66c",rate:.23,speed:555,damage:1,tone:[480,.055,"triangle",.022,700]}
+};
+
+function resize(){D=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;C.width=W*D;C.height=H*D;C.style.width=W+"px";C.style.height=H+"px";X.setTransform(D,0,0,D,0,0);player.y=H-104;makeStars()}
+function makeStars(){stars=[];for(let i=0;i<Math.max(110,Math.floor(W*H/2600));i++)stars.push({x:Math.random()*W,y:Math.random()*H,s:.35+Math.random()*1.2,v:14+Math.random()*42,a:.25+Math.random()*.75})}
+addEventListener("resize",resize);
+
 function steerPlayer(){
-  const t=Number(steer.value)/1000;
-  player.x=18+t*(W-36);
+ const t=Number(steer.value)/1000;
+ player.x=18+t*(W-36);
 }
 steer.addEventListener("input",()=>{audio();steerPlayer()});
 steer.addEventListener("pointerdown",audio);
